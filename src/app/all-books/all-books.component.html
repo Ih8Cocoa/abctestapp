@@ -13,7 +13,7 @@
             <mat-card style="flex-wrap: wrap; min-width: 200px">
                 <img mat-card-image [src]="book.linkCover" alt="img for card" class="card-image"/>
                 <mat-card-content>
-                    <a href="/" class="card-title">
+                    <a routerLink="book/{{book.id}}" class="card-title">
                         <h2 class="mat-h2">{{book.title}}</h2>
                     </a>
                     <p>By <span *ngFor="let author of book.authors">{{author.name}}, </span>

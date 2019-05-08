@@ -6,9 +6,9 @@ import {map} from "rxjs/operators";
 interface BookCard {
     id: string;
     linkCover: string;
-    authors: {
+    authors: [{
         name: string;
-    };
+    }];
     title: string;
 }
 

@@ -3,21 +3,19 @@
 </app-loading>
 
 <ng-template #notLoading>
-    <!--<div *ngIf="article | async as currentArticle; else notFound" class="container" fxLayout="row wrap"
+    <div *ngIf="bookDetails | async as currentBook; else notFound" class="container" fxLayout="row wrap"
          fxLayoutAlign="center">
-        <h1 class="mat-h1" fxFlex="100%">{{currentArticle.title}}</h1>
-        <h4 class="mat-h4" style="color: #6A6A6A" fxFlex="100%">{{currentArticle.subtitle}}</h4>
+        <h1 class="mat-h1" fxFlex="100%">{{currentBook.title}}</h1>
         <p fxFlex="100%" class="mat-body-2">
-            By {{currentArticle.author}}
-            | Published on {{toDate(currentArticle.date)}}
+            By {{currentBook.authors[0]}}
         </p>
-        <img [src]="currentArticle.thumbnailUrl" alt="article thumbnail" fxFlex="65%"/>
-        <markdown class="news-markdown" [data]="currentArticle.markdown" fxFlex="100%"></markdown>
+        <img [src]="currentBook.linkCover" alt="article thumbnail" fxFlex="65%"/>
+        <markdown class="news-markdown" [data]="currentBook.description" fxFlex="100%"></markdown>
     </div>
     <ng-template #notFound>
         <div fxLayout="column" fxLayoutAlign="center center" style="margin-top: 250px">
             <h1 class="mat-display-4">404</h1>
             <h4 class="mat-h4" fxFlex="100">Article not found</h4>
         </div>
-    </ng-template>-->
+    </ng-template>
 </ng-template>
