@@ -24,7 +24,15 @@ export class NaviComponent {
     constructor(private breakpointObserver: BreakpointObserver) {
     }
 
-    readonly links: Hyperlinks[] = [
-        {href: '/', text: 'Homepage'}
-    ];
+    links(): Hyperlinks[] {
+        const rtn: Hyperlinks[] = [
+            {href: '/', text: 'Homepage'}
+        ];
+        const isLoggedIn = localStorage.getItem('token') !== null;
+        if (isLoggedIn) {
+            rtn.push({href: '/add-publisher', text: 'Add Publisher'});
+            rtn.push({href: '/add-language', text: 'Add Language'});
+        }
+        return rtn;
+    }
 }

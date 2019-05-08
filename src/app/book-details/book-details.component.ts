@@ -24,6 +24,7 @@ interface BookDetails {
         name: string;
     };
     categoryPaths: string[];
+    publishDate: string;
 }
 
 interface BookDetailsRepo {
@@ -36,8 +37,8 @@ interface BookDetailsRepo {
 })
 export class BookDetailsComponent implements OnInit, OnDestroy {
     private readonly fields = `title description priceEBook pricePhysical authors {name}
-   categories {name} language {name} publisher {name} linkCover categoryPaths`;
-    isLoading: boolean;
+   categories {name} language {name} publisher {name} linkCover categoryPaths publishDate`;
+    isLoading = true;
     bookDetails: Observable<BookDetails>;
     private sub: Subscription;
 
@@ -52,6 +53,7 @@ export class BookDetailsComponent implements OnInit, OnDestroy {
 
     refreshData() {
         const id = this.route.snapshot.paramMap.get('id');
+        console.log(id);
         this.bookDetails = this.gqlGen.findBookByIDApolloQuery(id, this.fields)
             .valueChanges
             .pipe(map(this.extract));
@@ -64,6 +66,10 @@ export class BookDetailsComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.sub.unsubscribe();
+    }
+
+    toDateStr(str: string) {
+        return (new Date(str)).toUTCString();
     }
 
 }

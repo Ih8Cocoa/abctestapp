@@ -32,22 +32,19 @@ export class GqlGeneratorService {
     findBookByIDApolloQuery<T>(id: string, fields: string) {
         return this.apollo.watchQuery<T>({
             query: gql`
-                query($id: String!) {
-                    oneBook(id: $id) {
+                {
+                    oneBook(id: \"${id}\") {
                         ${GqlGeneratorService.toQueryFields(fields)}
                     }
                 }
-            `,
-            variables: {
-                id
-            }
+            `
         });
     }
 
     findRelatedBooksApolloQuery<T>(id: string, fields: string) {
         return this.apollo.watchQuery<T>({
             query: gql`
-                query($id: String!) {
+                query($id: ID!) {
                     findSimilarBook(id: $id) {
                         ${GqlGeneratorService.toQueryFields(fields)}
                     }

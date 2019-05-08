@@ -1,5 +1,5 @@
 <app-loading *ngIf="isLoading; else notLoading">
-    Loading the news article...
+    Loading the book details
 </app-loading>
 
 <ng-template #notLoading>
@@ -7,10 +7,15 @@
          fxLayoutAlign="center">
         <h1 class="mat-h1" fxFlex="100%">{{currentBook.title}}</h1>
         <p fxFlex="100%" class="mat-body-2">
-            By {{currentBook.authors[0]}}
+            By
+            <span *ngFor="let author of currentBook.authors">{{author.name}}</span>
+            | Published on {{toDateStr(currentBook.publishDate)}}
         </p>
         <img [src]="currentBook.linkCover" alt="article thumbnail" fxFlex="65%"/>
-        <markdown class="news-markdown" [data]="currentBook.description" fxFlex="100%"></markdown>
+        <p fxFlex="100%" class="mat-body-2">Description:</p>
+        <markdown class="news-markdown mat-body-1" [data]="currentBook.description" fxFlex="100%"></markdown>
+        <p fxFlex="100%" class="mat-body-2">Categories:</p>
+        <p class="mat-body-1" fxFlex="100%" *ngFor="let categoryPath of currentBook.categoryPaths">{{categoryPath}}</p>
     </div>
     <ng-template #notFound>
         <div fxLayout="column" fxLayoutAlign="center center" style="margin-top: 250px">
