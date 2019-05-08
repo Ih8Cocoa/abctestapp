@@ -6,7 +6,7 @@ import {onError} from 'apollo-link-error';
 import {setContext} from 'apollo-link-context';
 import {ApolloLink} from "apollo-link";
 
-const uri = 'http:/localhost:8080/graphql'; // <-- add the URL of the GraphQL server here
+const uri = 'http://localhost:8080/graphql'; // <-- add the URL of the GraphQL server here
 
 const errorLink = onError(({graphQLErrors, networkError}) => {
     // in case the error is a GraphQL Query-related Error => Alert the user about the GraphQL error

@@ -10,7 +10,7 @@ export class GqlGeneratorService {
     constructor(private apollo: Apollo) {
     }
 
-    private toQueryFields(str?: string): string {
+    private static toQueryFields(str?: string): string {
         if (!str || str === "") {
             return "id";
         }
@@ -22,19 +22,19 @@ export class GqlGeneratorService {
             query: gql`
                 {
                     allBooks {
-                        ${this.toQueryFields(fields)}
+                        ${GqlGeneratorService.toQueryFields(fields)}
                     }
                 }
             `
         });
     }
 
-    findBookByID<T>(id: string, fields: string) {
+    findBookByIDApolloQuery<T>(id: string, fields: string) {
         return this.apollo.watchQuery<T>({
             query: gql`
                 query($id: String!) {
                     oneBook(id: $id) {
-                        ${this.toQueryFields(fields)}
+                        ${GqlGeneratorService.toQueryFields(fields)}
                     }
                 }
             `,
@@ -44,12 +44,12 @@ export class GqlGeneratorService {
         });
     }
 
-    findRelatedBooks<T>(id: string, fields: string) {
+    findRelatedBooksApolloQuery<T>(id: string, fields: string) {
         return this.apollo.watchQuery<T>({
             query: gql`
                 query($id: String!) {
                     findSimilarBook(id: $id) {
-                        ${this.toQueryFields(fields)}
+                        ${GqlGeneratorService.toQueryFields(fields)}
                     }
                 }
             `,
@@ -57,35 +57,35 @@ export class GqlGeneratorService {
         });
     }
 
-    allLanguages<T>(fields: string) {
+    allLanguagesApolloQuery<T>(fields: string) {
         return this.apollo.watchQuery<T>({
             query: gql`
                 {
                     allLanguages {
-                        ${this.toQueryFields(fields)}
+                        ${GqlGeneratorService.toQueryFields(fields)}
                     }
                 }
             `
         });
     }
 
-    allPublishers<T>(fields: string) {
+    allPublishersApolloQuery<T>(fields: string) {
         return this.apollo.watchQuery<T>({
             query: gql`
                 {
                     allPublishers {
-                        ${this.toQueryFields(fields)}
+                        ${GqlGeneratorService.toQueryFields(fields)}
                     }
                 }`
         });
     }
 
-    addNewLanguage(languageName: string, fields?: string) {
+    addNewLanguageApolloMutation(languageName: string, fields?: string) {
         return this.apollo.mutate({
             mutation: gql`
                 mutation($languageName: String!) {
                     addLanguage(languageName: $languageName) {
-                        ${this.toQueryFields(fields)}
+                        ${GqlGeneratorService.toQueryFields(fields)}
                     }
                 }
             `,
@@ -93,12 +93,12 @@ export class GqlGeneratorService {
         });
     }
 
-    addNewPublisher(publisherName: string, fields?: string) {
+    addNewPublisherApolloMutation(publisherName: string, fields?: string) {
         return this.apollo.mutate({
             mutation: gql`
                 mutation ($publisherName: String!) {
                     addPublisher(publisherName: $publisherName) {
-                        ${this.toQueryFields(fields)}
+                        ${GqlGeneratorService.toQueryFields(fields)}
                     }
                 }
             `,
@@ -106,13 +106,13 @@ export class GqlGeneratorService {
         });
     }
 
-    register<T>(email: string, password: string, birthdayIso: string, languageNames: string[], fields: string) {
-        return this.apollo.watchQuery<T>({
-            query: gql`
-                query ($email: String!, $password: String!, $birthdayIso: String!, $languageNames: [String]!) {
+    readerRegisterApolloMutation(email: string, password: string, birthdayIso: string, languageNames: string[], fields: string) {
+        return this.apollo.mutate({
+            mutation: gql`
+                mutation ($email: String!, $password: String!, $birthdayIso: String!, $languageNames: [String]!) {
                     addReader(email: $email, birthdayIso: $birthdayIso, password: $password, 
                         languageNames: $languageNames) {
-                        ${this.toQueryFields(fields)}
+                        ${GqlGeneratorService.toQueryFields(fields)}
                     }
                 }
             `,
@@ -122,17 +122,17 @@ export class GqlGeneratorService {
         });
     }
 
-    login<T>(email: string, password: string, fields: string) {
+    readerLoginApolloQuery<T>(email: string, password: string, fields: string) {
         return this.apollo.watchQuery<T>({
             query: gql`
                 query ($email: String!, $password: String!) {
                     readerLogin(email: $email, password: $password) {
-                        ${this.toQueryFields(fields)}
+                        ${GqlGeneratorService.toQueryFields(fields)}
                     }
                 }
             `,
             variables: {email, password}
-        })
+        });
     }
 
 }

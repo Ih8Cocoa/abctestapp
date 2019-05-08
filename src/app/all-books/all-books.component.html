@@ -1,0 +1,32 @@
+<div fxLayout fxLayoutAlign="center" class="margination">
+    <p class="mat-display-1">All books in the Database</p>
+</div>
+
+<app-loading *ngIf="loading; else notLoading">
+    Hello!
+</app-loading>
+
+<ng-template #notLoading>
+    <div fxLayout="row wrap" fxLayout.xs="column" fxLayoutGap="0.5%" fxLayoutAlign="center"
+         *ngIf="(bookCards | async)?.length; else emptiness">
+        <div *ngFor="let book of bookCards | async" style="margin: 15px 15px">
+            <mat-card style="flex-wrap: wrap; min-width: 200px">
+                <img mat-card-image [src]="book.linkCover" alt="img for card" class="card-image"/>
+                <mat-card-content>
+                    <a href="/" class="card-title">
+                        <h2 class="mat-h2">{{book.title}}</h2>
+                    </a>
+                    <p>By <span *ngFor="let author of book.authors">{{author.name}}, </span>
+                    </p>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+    <ng-template #emptiness>
+        <div fxLayout fxLayoutAlign="center">
+            <p>
+                <em>Nothing to see here, folks</em>
+            </p>
+        </div>
+    </ng-template>
+</ng-template>
