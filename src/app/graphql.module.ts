@@ -3,7 +3,6 @@ import {ApolloModule, APOLLO_OPTIONS} from 'apollo-angular';
 import {HttpLinkModule, HttpLink} from 'apollo-angular-link-http';
 import {InMemoryCache} from 'apollo-cache-inmemory';
 import {onError} from 'apollo-link-error';
-import {setContext} from 'apollo-link-context';
 import {ApolloLink} from "apollo-link";
 
 const uri = 'http://localhost:8080/graphql'; // <-- add the URL of the GraphQL server here
@@ -21,19 +20,19 @@ const errorLink = onError(({graphQLErrors, networkError}) => {
     }
 });
 
-const authLink = setContext((_, {headers}) => {
-    // get the authentication token from local storage if it exists
+const authLink = new ApolloLink((operation, forward) => {
+    // Retrieve the authorization token from local storage.
     const token = localStorage.getItem('token');
-    // return the headers to the context so httpLink can read them
-    // in this example we assume headers property exists
-    // and it is an instance of HttpHeaders
-    if (!token) {
-        return {};
-    } else {
-        return {
-            headers: headers.append('Authorization', `Bearer ${token}`)
-        };
-    }
+
+    // Use the setContext method to set the HTTP headers.
+    operation.setContext({
+        headers: {
+            authorization: token ? `Bearer ${token}` : ''
+        }
+    });
+
+    // Call the next link in the middleware chain.
+    return forward(operation);
 });
 
 export function createApollo(httpLink: HttpLink) {

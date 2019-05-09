@@ -23,10 +23,8 @@
             <span>abctestapp</span>
             <span style="flex: 1 1 auto"></span>
             <ng-container *ngIf="!(isHandset$ | async)">
-                <a *ngFor="let link of links()" [routerLink]="link.href">
-                    <button mat-button>
-                        <span class="toolbar-link">{{link.text}}</span>
-                    </button>
+                <a *ngFor="let link of links()" [routerLink]="link.href" class="mat-body-1 link" >
+                    {{link.text}}
                 </a>
             </ng-container>
         </mat-toolbar>

@@ -32,25 +32,26 @@ export class GqlGeneratorService {
     findBookByIDApolloQuery<T>(id: string, fields: string) {
         return this.apollo.watchQuery<T>({
             query: gql`
-                {
-                    oneBook(id: \"${id}\") {
-                        ${GqlGeneratorService.toQueryFields(fields)}
-                    }
-                }
-            `
-        });
-    }
-
-    findRelatedBooksApolloQuery<T>(id: string, fields: string) {
-        return this.apollo.watchQuery<T>({
-            query: gql`
-                query($id: ID!) {
-                    findSimilarBook(id: $id) {
+                query ($id: UUID!) {
+                    oneBook(id: $id) {
                         ${GqlGeneratorService.toQueryFields(fields)}
                     }
                 }
             `,
             variables: {id}
+        });
+    }
+
+    findRelatedBooksApolloQuery<T>(id: string, limit: number, fields: string) {
+        return this.apollo.watchQuery<T>({
+            query: gql`
+                query($id: UUID!, $limit: Int!) {
+                    findSimilarBooks(id: $id, numberOfBooks: $limit) {
+                        ${GqlGeneratorService.toQueryFields(fields)}
+                    }
+                }
+            `,
+            variables: {id, limit}
         });
     }
 
@@ -128,8 +129,80 @@ export class GqlGeneratorService {
                     }
                 }
             `,
-            variables: {email, password}
+            variables: { email, password }
         });
     }
 
+    readerAddEBookToCartApolloMutation(bookId: string, fields?: string) {
+        const email = localStorage.getItem('userEmail');
+        if (!email) {
+            console.error("From readerAddEBookToCartApolloMutation: You must log in first");
+            return;
+        }
+        return this.apollo.mutate({
+            mutation: gql`
+                mutation ($email: String!, $bookId: UUID!) {
+                    readerAddBookToShoppingCart(readerEmail: $email, bookId: $bookId, isEBook: true) {
+                        ${GqlGeneratorService.toQueryFields(fields)}
+                    }
+                }
+            `,
+            variables: {email, bookId}
+        });
+    }
+
+    readerAddPhysicalBookToCartApolloMutation(bookId: string, amount: number, fields?: string) {
+        const email = localStorage.getItem('userEmail');
+        if (!email) {
+            console.error("From readerAddEBookToCartApolloMutation: You must log in first");
+            return;
+        }
+        return this.apollo.mutate({
+            mutation: gql`
+                mutation ($email: String!, $bookId: UUID!, $amount: Int!) {
+                    readerAddBookToShoppingCart(readerEmail: $email, bookId: $bookId, isEBook: false, amount: $amount) {
+                        ${GqlGeneratorService.toQueryFields(fields)}
+                    }
+                }
+            `,
+            variables: {email, bookId, amount}
+        });
+    }
+
+    readerGetShoppingCartApolloQuery<T>(fields: string) {
+        const email = localStorage.getItem('userEmail');
+        if (!email) {
+            console.error("From readerAddEBookToCartApolloMutation: You must log in first");
+            return;
+        }
+        return this.apollo.watchQuery<T>({
+            query: gql`
+                query ($email: String!) {
+                    readerGetShoppingCart(readerEmail: $email) {
+                        ${GqlGeneratorService.toQueryFields(fields)}
+                    }
+                }
+            `,
+            variables: {email}
+        });
+    }
+
+    readerCheckoutApolloMutation(name: string, address: string, paymentMethod: string, fields?: string) {
+        const email = localStorage.getItem('userEmail');
+        if (!email) {
+            console.error("From readerAddEBookToCartApolloMutation: You must log in first");
+            return;
+        }
+        return this.apollo.mutate({
+            mutation: gql`
+                mutation ($email: String!, $name: String!, $address: String!, $paymentMethod: String!) {
+                    readerCheckout(readerEmail: $email, readerName: $name, 
+                        readerAddress: $address, paymentMethod: $paymentMethod) {
+                        ${GqlGeneratorService.toQueryFields(fields)}
+                    }
+                }
+            `,
+            variables: {email, name, address, paymentMethod}
+        });
+    }
 }

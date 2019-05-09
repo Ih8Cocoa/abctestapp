@@ -16,11 +16,44 @@
         <markdown class="news-markdown mat-body-1" [data]="currentBook.description" fxFlex="100%"></markdown>
         <p fxFlex="100%" class="mat-body-2">Categories:</p>
         <p class="mat-body-1" fxFlex="100%" *ngFor="let categoryPath of currentBook.categoryPaths">{{categoryPath}}</p>
+        <p fxFlex="100%">
+            <span class="mat-body-2">Language: </span>
+            <span class="mat-body-1">{{currentBook.language.name}}</span>
+        </p>
+        <div *ngIf="isLoggedIn()" fxFlex="100%">
+            <p class="mat-body-2">Actions for logged-in readers:</p>
+            <button mat-raised-button style="margin: 0 20px" color="primary" (click)="addEBookToCart()">
+                Add e-Book to Shopping Cart
+            </button>
+            <button mat-raised-button style="margin: 0 20px" color="primary" (click)="addRealBookToCart()">
+                Add Physical Book to Shopping Cart
+            </button>
+        </div>
+        <p fxFlex="100%" class="mat-body-2">Related books:</p>
+        <div fxFlex="100%" fxLayout="row wrap" fxLayout.xs="column" fxLayoutGap="0.5%" fxLayoutAlign="center"
+             *ngIf="(similarBooks | async)?.length; else emptiness">
+            <div *ngFor="let book of similarBooks | async" style="margin: 15px 15px">
+                <mat-card style="flex-wrap: wrap; min-width: 200px">
+                    <img mat-card-image [src]="book.linkCover" alt="img for card" class="card-image"/>
+                    <mat-card-content>
+                        <a [routerLink]="['/book', book.id]" class="card-title" (click)="refreshData()">
+                            <h2 class="mat-h2">{{book.title}}</h2>
+                        </a>
+                        <p>By {{toAuthorsStr(book)}}</p>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </div>
+        <ng-template #emptiness>
+            <p fxFlex="100%" class="mat-body-1">
+                <em>Nothing to see here, folks</em>
+            </p>
+        </ng-template>
     </div>
     <ng-template #notFound>
         <div fxLayout="column" fxLayoutAlign="center center" style="margin-top: 250px">
             <h1 class="mat-display-4">404</h1>
-            <h4 class="mat-h4" fxFlex="100">Article not found</h4>
+            <h4 class="mat-h4" fxFlex="100">Book not found</h4>
         </div>
     </ng-template>
 </ng-template>

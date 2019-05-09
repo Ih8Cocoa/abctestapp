@@ -1,0 +1,21 @@
+%span-full-width {
+  display: flex;
+  flex-direction: column;
+}
+
+.mat-form-field {
+  @extend %span-full-width
+}
+
+.form-div {
+  @extend %span-full-width;
+  width: 600px;
+}
+
+.pad-top {
+  padding-top: 6px;
+}
+
+.margination {
+  margin: 30px;
+}

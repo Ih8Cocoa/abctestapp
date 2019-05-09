@@ -27,7 +27,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AllBooksComponent } from './all-books/all-books.component';
 import { LoadingComponent } from './loading/loading.component';
 import { BookDetailsComponent } from './book-details/book-details.component';
-import { LoginDialogComponent } from './login-dialog/login-dialog.component';
+import { LoginComponent } from './login/login.component';
+import { ViewCartComponent } from './view-cart/view-cart.component';
 
 @NgModule({
     declarations: [
@@ -36,7 +37,8 @@ import { LoginDialogComponent } from './login-dialog/login-dialog.component';
         AllBooksComponent,
         LoadingComponent,
         BookDetailsComponent,
-        LoginDialogComponent
+        LoginComponent,
+        ViewCartComponent
     ],
     imports: [
         BrowserModule,

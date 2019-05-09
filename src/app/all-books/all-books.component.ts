@@ -56,4 +56,8 @@ export class AllBooksComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         this.subs.forEach(sub => sub.unsubscribe());
     }
+
+    toAuthorsStr(book: BookCard) {
+        return book.authors.map(a => a.name).join(', ');
+    }
 }

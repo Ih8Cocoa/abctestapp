@@ -1,0 +1,41 @@
+<div fxFlex="100%" fxLayoutAlign="center" *ngIf="isLoggedIn(); else notLoggedIn">
+    <p class="mat-display-1">You're already logged in</p>
+</div>
+
+<ng-template #notLoggedIn>
+    <div fxLayout fxLayoutAlign="center" class="margination">
+        <h1 class="mat-h1">Login</h1>
+    </div>
+
+    <div fxLayout fxLayoutAlign="center">
+        <form mat-dialog-content (ngSubmit)="submit()" #formControl="ngForm" fxLayout="row wrap" fxLayoutAlign="center" novalidate>
+            <div fxFlex="100%" style="margin: 0 20px">
+                <mat-form-field>
+                    <input matInput placeholder="Email" [(ngModel)]="credential.email" name="email" #email="ngModel" required
+                           email minlength="3">
+                    <mat-error *ngIf="email.errors">
+                        <span *ngIf="email.hasError('required')">Email is required</span>
+                        <span *ngIf="email.hasError('minlength')">Not long enough</span>
+                        <span *ngIf="email.hasError('email')">Must be an email</span>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div fxFlex="100%" style="margin: 0 20px">
+                <mat-form-field>
+                    <input matInput placeholder="Password" [(ngModel)]="credential.password" name="password" #password="ngModel"
+                           required minlength="6" type="password">
+                    <mat-error *ngIf="password.errors">
+                        <span *ngIf="password.hasError('required')">Password is required</span>
+                        <span *ngIf="password.hasError('minlength')">Password isn't long enough</span>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div>
+                <button mat-raised-button color="primary" [type]="submit" [disabled]="formControl.invalid">
+                    Login
+                </button>
+            </div>
+        </form>
+    </div>
+
+</ng-template>

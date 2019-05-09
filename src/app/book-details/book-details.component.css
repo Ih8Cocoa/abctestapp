@@ -23,3 +23,15 @@ img {
 .container {
     margin: 60px;
 }
+
+.card-title {
+    text-decoration: none;
+    color: black;
+}
+
+.margination {
+    margin: 30px;
+}
+
+.mat-card { display:inline-block; max-width:200px; min-width:100px; margin:0 10px; }
+

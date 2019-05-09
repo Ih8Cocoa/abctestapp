@@ -16,7 +16,7 @@
                     <a routerLink="book/{{book.id}}" class="card-title">
                         <h2 class="mat-h2">{{book.title}}</h2>
                     </a>
-                    <p>By <span *ngFor="let author of book.authors">{{author.name}}, </span>
+                    <p>By {{toAuthorsStr(book)}}
                     </p>
                 </mat-card-content>
             </mat-card>
