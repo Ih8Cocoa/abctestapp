@@ -20,6 +20,14 @@
             <span class="mat-body-2">Language: </span>
             <span class="mat-body-1">{{currentBook.language.name}}</span>
         </p>
+        <p fxFlex="100%">
+            <span class="mat-body-2">Price of E-Book: </span>
+            <span class="mat-body-1">${{currentBook.priceEBook}}</span>
+        </p>
+        <p fxFlex="100%">
+            <span class="mat-body-2">Price of Physical Book: </span>
+            <span class="mat-body-1">${{currentBook.pricePhysical}}</span>
+        </p>
         <div *ngIf="isLoggedIn()" fxFlex="100%">
             <p class="mat-body-2">Actions for logged-in readers:</p>
             <button mat-raised-button style="margin: 0 20px" color="primary" (click)="addEBookToCart()">

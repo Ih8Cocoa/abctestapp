@@ -35,7 +35,6 @@ export class NaviComponent {
         ];
         if (this.isLoggedIn()) {
             rtn.push({href: '/shopping-cart', text: 'Shopping Cart'});
-            rtn.push({href: '/add-language', text: 'Add Language'});
         } else {
             rtn.push({href: '/login', text: 'Login page'});
         }

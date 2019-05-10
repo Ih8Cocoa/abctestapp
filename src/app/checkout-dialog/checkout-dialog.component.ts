@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {GqlGeneratorService} from "../services/gql-generator.service";
 import {MatDialogRef} from "@angular/material";
 import {take} from "rxjs/operators";
+import {Router} from "@angular/router";
 
 interface CheckoutInfo {
     name: string;
@@ -19,7 +20,8 @@ export class CheckoutDialogComponent implements OnInit, OnDestroy {
     currentInfo = {} as CheckoutInfo;
     stuff: string[] = Array(5).fill('');
 
-    constructor(private gqlGen: GqlGeneratorService, private matDialogRef: MatDialogRef<CheckoutDialogComponent>) {
+    constructor(private gqlGen: GqlGeneratorService, private matDialogRef: MatDialogRef<CheckoutDialogComponent>,
+                private router: Router) {
     }
 
     onCancel() {
@@ -36,7 +38,10 @@ export class CheckoutDialogComponent implements OnInit, OnDestroy {
         const {name, address, paymentMethod} = this.currentInfo;
         this.gqlGen.readerCheckoutApolloMutation(name, address, paymentMethod)
             .pipe(take(1))
-            .subscribe(() => alert('Checkout completed'));
+            .subscribe(() => {
+                alert('Checkout completed');
+                this.router.navigate(['/']);
+            });
     }
 
 }
