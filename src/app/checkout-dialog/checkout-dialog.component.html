@@ -1,0 +1,49 @@
+<div class="dialog-div">
+    <h3 mat-dialog-title>Checkout</h3>
+    <form mat-dialog-content (ngSubmit)="submit()" #formControl="ngForm" class="pad-top" novalidate>
+        <div>
+            <mat-form-field>
+                <input matInput placeholder="Full name" [(ngModel)]="currentInfo.name" name="name"
+                       #name="ngModel" required minlength="3" maxlength="25">
+                <mat-error *ngIf="name.errors">Errors here</mat-error>
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-form-field>
+                <input matInput placeholder="Address" [(ngModel)]="currentInfo.address" name="address" required
+                       #address="ngModel" minlength="5">
+                <mat-error *ngIf="address.errors">Errors</mat-error>
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-form-field>
+                <input matInput placeholder="Payment Method" [(ngModel)]="currentInfo.paymentMethod"
+                       name="paymentMethod" #paymentMethod="ngModel" required minlength="3">
+                <mat-error *ngIf="paymentMethod.errors">Errors</mat-error>
+            </mat-form-field>
+        </div>
+        <div *ngIf="currentInfo.paymentMethod === 'Cash-on Delivery'">
+            <mat-form-field>
+                <input matInput placeholder="Credit Card Info" [(ngModel)]="stuff[0]"
+                       name="creditCard" #creditCard="ngModel" required minlength="16" maxlength="16">
+                <mat-error *ngIf="creditCard.errors">Errors</mat-error>
+            </mat-form-field>
+        </div>
+        <div *ngIf="currentInfo.paymentMethod === 'Cash-on Delivery'">
+            <mat-form-field>
+                <input matInput placeholder="CVV/CVC" [(ngModel)]="stuff[1]"
+                       name="cvc" #cvc="ngModel" required [min]="100" [max]="1000" type="number">
+                <mat-error *ngIf="cvc.errors">Errors</mat-error>
+            </mat-form-field>
+        </div>
+        <div mat-dialog-actions>
+            <button mat-raised-button color="primary" [type]="submit" [disabled]="formControl.invalid"
+                    [mat-dialog-close]="1">
+                Complete Checkout
+            </button>
+            <button mat-button (click)="onCancel()" type="button">
+                Cancel
+            </button>
+        </div>
+    </form>
+</div>

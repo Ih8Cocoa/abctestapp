@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Observable, Subscription, combineLatest, defer} from "rxjs";
 import {GqlGeneratorService} from "../services/gql-generator.service";
-import {map, switchMap} from "rxjs/operators";
+import {map, switchMap, take} from "rxjs/operators";
 import {ActivatedRoute, Router} from "@angular/router";
 
 interface BookDetails {
@@ -112,6 +112,7 @@ export class BookDetailsComponent implements OnInit, OnDestroy {
     addEBookToCart() {
         const id = this.route.snapshot.paramMap.get('id');
         this.gqlGen.readerAddEBookToCartApolloMutation(id)
+            .pipe(take(1))
             .subscribe(() => {
                 alert('e-book has been added to cart');
                 this.router.navigate(['/']);
@@ -121,6 +122,7 @@ export class BookDetailsComponent implements OnInit, OnDestroy {
     addRealBookToCart() {
         const id = this.route.snapshot.paramMap.get('id');
         this.gqlGen.readerAddPhysicalBookToCartApolloMutation(id, 1)
+            .pipe(take(1))
             .subscribe(() => {
                 alert('Physical book has been added to cart');
                 this.router.navigate(['/']);

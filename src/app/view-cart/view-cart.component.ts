@@ -3,6 +3,7 @@ import {MatDialog, MatPaginator, MatSort, MatTableDataSource} from "@angular/mat
 import {Subscription} from "rxjs";
 import {GqlGeneratorService} from "../services/gql-generator.service";
 import {map} from "rxjs/operators";
+import {CheckoutDialogComponent} from "../checkout-dialog/checkout-dialog.component";
 
 interface ShoppingCart {
     bookId: string;
@@ -60,7 +61,7 @@ export class ViewCartComponent implements OnInit, OnDestroy {
     }
 
     prepareCheckout() {
-
+        this.dialog.open(CheckoutDialogComponent);
     }
 
     placeHolder() {

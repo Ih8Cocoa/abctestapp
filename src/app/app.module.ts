@@ -29,6 +29,7 @@ import { LoadingComponent } from './loading/loading.component';
 import { BookDetailsComponent } from './book-details/book-details.component';
 import { LoginComponent } from './login/login.component';
 import { ViewCartComponent } from './view-cart/view-cart.component';
+import { CheckoutDialogComponent } from './checkout-dialog/checkout-dialog.component';
 
 @NgModule({
     declarations: [
@@ -38,7 +39,8 @@ import { ViewCartComponent } from './view-cart/view-cart.component';
         LoadingComponent,
         BookDetailsComponent,
         LoginComponent,
-        ViewCartComponent
+        ViewCartComponent,
+        CheckoutDialogComponent
     ],
     imports: [
         BrowserModule,
@@ -67,7 +69,10 @@ import { ViewCartComponent } from './view-cart/view-cart.component';
         AppRoutingModule
     ],
     providers: [],
-    bootstrap: [AppComponent]
+    bootstrap: [AppComponent],
+    entryComponents: [
+        CheckoutDialogComponent
+    ]
 })
 export class AppModule {
 }
